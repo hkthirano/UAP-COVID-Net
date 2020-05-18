@@ -1,43 +1,46 @@
 # UAP-COVID-Net
 
-ディレクトリ
+## Usage
 
 ```
+# Directories
 .
-|-- COVID-Net
-|   |-- data
-|   |   |-- train
-|   |   `-- test
-|   |-- model
-|   |   |-- COVIDNet-CXR-Small
-|   |   `-- COVIDNet-CXR-Large
-|   `-- inference.py
-|-- UAP-COVID-Net
-|   `-- generate_noise.py
-|-- covid-chestxray-dataset
-|-- Figure1-COVID-chestxray-dataset
-`-- ctualmed-COVID-chestxray-dataset
+├── COVID-Net
+│   ├── create_COVIDx_v2.ipynb
+│   ├── data
+│   │   ├── train
+│   │   └── test
+│   ├── inference.py
+│   └── models
+│       └── COVIDNet-CXR-Small
+├── UAP-COVID-Net
+│   ├── generate_nontargeted_uap.py
+│   ├── generate_random_uap.py
+│   ├── generate_targeted_uap.py
+│   ├── output
+│   └── uap_utils.py
+├── covid-chestxray-dataset
+├── Figure1-COVID-chestxray-dataset
+└── rsna-pneumonia-detection-challenge
 ```
 
-1. オリジナルの[lindawangg/COVID-Net](https://github.com/lindawangg/COVID-Net)の`inference.py`が動くようにする
-    - Requirements to install on your system
-    - How to generate COVIDx dataset
-      - データセット
-        - `covid-chestxray-dataset`
-        - `Figure1-COVID-chestxray-dataset`
-        - `rsna-pneumonia-detection-challenge`
-      - スクリプト
-        - `create_COVIDx_v2.ipynb`
-    - Download a model from the pretrained models section
-      - モデル
-        - `COVIDNet-CXR Small`
-        - `COVIDNet-CXR Large`
+1. Check [lindawangg/COVID-Net : Table of Contents](https://github.com/lindawangg/COVID-Net#table-of-contents) for installation instructions.
+- Requirements to install on your system
+- How to generate COVIDx dataset
+  - Download the datasets listed above
+    - `covid-chestxray-dataset`
+    - `Figure1-COVID-chestxray-dataset`
+    - `rsna-pneumonia-detection-challenge`
+  - Use `create_COVIDx_v2.ipynb`
+- Download a model from the pretrained models section
+  - `COVIDNet-CXR Small`
+  - `COVIDNet-CXR Large`
 
-2. Install the UAP method and Keras.
-  - `pip install git+https://github.com/hkthirano/adversarial-robustness-toolbox`
-  - `pip install keras` : データの前処理に`to_categorical`を使いたいだけ
+2. Install the UAP method and Keras (to generate dataset).
+- `pip install git+https://github.com/hkthirano/adversarial-robustness-toolbox`
+- `pip install keras`
 
-3. Generate a UAP
+3. Generate a UAP.
 
 ```
 # $ pwd
@@ -47,3 +50,5 @@ python generate_nontargeted_uap.py
 python generate_targeted_uap.py --target COVID-19
 python generate_random_uap.py
 ```
+
+4. Results
