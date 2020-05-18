@@ -2,11 +2,12 @@ import argparse
 
 import numpy as np
 import tensorflow as tf
-from art.utils import random_sphere
 from art.classifiers import TFClassifier
+from art.utils import random_sphere
 
-from uap_utils import (get_foolingrate_rate, get_preds, get_target_success_rate,
-                       show_confusion_matrix, load_data, create_model, make_adv_img)
+from uap_utils import (create_model, get_foolingrate_rate, get_preds,
+                       get_target_success_rate, load_data, make_adv_img,
+                       show_confusion_matrix)
 
 parser = argparse.ArgumentParser(description='COVID-Net Evaluation')
 parser.add_argument('--weightspath', default='../COVID-Net/models/COVIDNet-CXR-Small',

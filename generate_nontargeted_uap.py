@@ -4,10 +4,9 @@ import numpy as np
 import tensorflow as tf
 from art.attacks import UniversalPerturbationRGB2Gray
 from art.classifiers import TFClassifier
-from PIL import Image
 
-from uap_utils import (get_foolingrate_rate, get_preds, make_adv_img,
-                       show_confusion_matrix, load_data, create_model)
+from uap_utils import (create_model, get_foolingrate_rate, get_preds,
+                       load_data, make_adv_img, show_confusion_matrix)
 
 parser = argparse.ArgumentParser(description='COVID-Net Evaluation')
 parser.add_argument('--weightspath', default='../COVID-Net/models/COVIDNet-CXR-Small',

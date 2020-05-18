@@ -1,12 +1,12 @@
 import os
-import tensorflow as tf
 
 import cv2
 import numpy as np
+import tensorflow as tf
 from keras.utils import np_utils
+from PIL import Image
 from sklearn.metrics import confusion_matrix
 from tqdm import tqdm
-from PIL import Image
 
 mapping = {'normal': 0, 'pneumonia': 1, 'COVID-19': 2}
 
@@ -114,4 +114,4 @@ def make_adv_img(clean_img, noise, adv_img, filename):
 
     img_all = np.concatenate((im_clean, im_noise, im_adv), axis=1)
     img_all = Image.fromarray(np.uint8(img_all))
-    img_all.save('output/random_uap.png')
+    img_all.save(filename)
