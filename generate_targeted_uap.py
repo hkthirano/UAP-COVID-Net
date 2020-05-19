@@ -1,12 +1,10 @@
 import argparse
 
 import numpy as np
-import tensorflow as tf
 from art.attacks import TargetedUniversalPerturbationRGB2Gray
-from art.classifiers import TFClassifier
 
-from uap_utils import (create_model, get_preds, get_target_success_rate,
-                       load_data, make_adv_img, show_confusion_matrix)
+from uap_utils import (get_preds, get_target_success_rate, make_adv_img,
+                       set_up, show_confusion_matrix)
 
 parser = argparse.ArgumentParser(description='COVID-Net Evaluation')
 parser.add_argument('--weightspath', default='../COVID-Net/models/COVIDNet-CXR-Small',
@@ -26,39 +24,13 @@ parser.add_argument('--eps', type=float, default=0.02)
 parser.add_argument('--target', type=str, default='COVID-19')
 
 args = parser.parse_args()
+(x_train, y_train), (x_test, y_test), (mean_l2_train,
+                                       mean_inf_train), norm, eps, classifier = set_up(args)
 
 mapping = {'normal': 0, 'pneumonia': 1, 'COVID-19': 2}
 target = mapping[args.target]
 
-# # Load the chestx dataset
-
-(x_train, y_train), (x_test, y_test), (mean_l2_train,
-                                       mean_inf_train) = load_data(args.datapath, args.trainfile, args.testfile)
-
-# # Create the model
-
-sess, graph = create_model(args.weightspath, args.metaname, args.ckptname)
-
-# # # Create the ART classifier
-
-input_tensor = graph.get_tensor_by_name("input_1:0")
-logit_tensor = graph.get_tensor_by_name("dense_3/MatMul:0")
-output_tensor = graph.get_tensor_by_name("dense_3/Softmax:0")
-label_tensor = graph.get_tensor_by_name("dense_3_target:0")
-loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(
-    logits=logit_tensor, labels=label_tensor))
-
-classifier = TFClassifier(input_ph=input_tensor, output=output_tensor,
-                          labels_ph=label_tensor, loss=loss, sess=sess)
-
 # # Generate adversarial examples
-
-if args.norm == '2':
-    norm = 2
-    eps = mean_l2_train * args.eps
-elif args.norm == 'inf':
-    norm = np.inf
-    eps = mean_inf_train * args.eps
 
 adv_crafter = TargetedUniversalPerturbationRGB2Gray(
     classifier,
@@ -100,5 +72,6 @@ print('=== test ===')
 show_confusion_matrix(np.argmax(y_test, axis=1), preds_test_adv)
 
 # # imshow
+
 make_adv_img(x_test[0], noise, x_test_adv[0],
              'output/targeted_uap_{}.png'.format(args.target))

@@ -1,12 +1,10 @@
 import argparse
 
 import numpy as np
-import tensorflow as tf
-from art.classifiers import TFClassifier
 from art.utils import random_sphere
 
-from uap_utils import (create_model, get_foolingrate_rate, get_preds,
-                       get_target_success_rate, load_data, make_adv_img,
+from uap_utils import (get_foolingrate_rate, get_preds,
+                       get_target_success_rate, make_adv_img, set_up,
                        show_confusion_matrix)
 
 parser = argparse.ArgumentParser(description='COVID-Net Evaluation')
@@ -26,36 +24,10 @@ parser.add_argument('--norm', type=str, default='inf')
 parser.add_argument('--eps', type=float, default=0.02)
 
 args = parser.parse_args()
-
-# # Load the chestx dataset
-
 (x_train, y_train), (x_test, y_test), (mean_l2_train,
-                                       mean_inf_train) = load_data(args.datapath, args.trainfile, args.testfile)
-
-# # Create the model
-
-sess, graph = create_model(args.weightspath, args.metaname, args.ckptname)
-
-# # # Create the ART classifier
-
-input_tensor = graph.get_tensor_by_name("input_1:0")
-logit_tensor = graph.get_tensor_by_name("dense_3/MatMul:0")
-output_tensor = graph.get_tensor_by_name("dense_3/Softmax:0")
-label_tensor = graph.get_tensor_by_name("dense_3_target:0")
-loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(
-    logits=logit_tensor, labels=label_tensor))
-
-classifier = TFClassifier(input_ph=input_tensor, output=output_tensor,
-                          labels_ph=label_tensor, loss=loss, sess=sess)
+                                       mean_inf_train), norm, eps, classifier = set_up(args)
 
 # # Generate adversarial examples
-
-if args.norm == '2':
-    norm = 2
-    eps = mean_l2_train * args.eps
-elif args.norm == 'inf':
-    norm = np.inf
-    eps = mean_inf_train * args.eps
 
 noise_rand = random_sphere(nb_points=1,
                            nb_dims=(224 * 224 * 1),
@@ -110,5 +82,6 @@ print('=== test ===')
 show_confusion_matrix(np.argmax(y_test, axis=1), preds_test_adv_rand)
 
 # # imshow
+
 make_adv_img(x_test[0], noise_rand, x_test_adv_rand[0],
              'output/random_uap.png')

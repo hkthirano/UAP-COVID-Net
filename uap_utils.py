@@ -3,6 +3,7 @@ import os
 import cv2
 import numpy as np
 import tensorflow as tf
+from art.classifiers import TFClassifier
 from keras.utils import np_utils
 from PIL import Image
 from sklearn.metrics import confusion_matrix
@@ -66,6 +67,30 @@ def create_model(weightspath, metaname, ckptname):
     return sess, graph
 
 
+def set_up(args):
+    # # Load the chestx dataset
+    (x_train, y_train), (x_test, y_test), (mean_l2_train,
+                                           mean_inf_train) = load_data(args.datapath, args.trainfile, args.testfile)
+    if args.norm == '2':
+        norm = 2
+        eps = mean_l2_train * args.eps
+    elif args.norm == 'inf':
+        norm = np.inf
+        eps = mean_inf_train * args.eps
+    # # Create the model
+    sess, graph = create_model(args.weightspath, args.metaname, args.ckptname)
+    # # # Create the ART classifier
+    input_tensor = graph.get_tensor_by_name("input_1:0")
+    logit_tensor = graph.get_tensor_by_name("dense_3/MatMul:0")
+    output_tensor = graph.get_tensor_by_name("dense_3/Softmax:0")
+    label_tensor = graph.get_tensor_by_name("dense_3_target:0")
+    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(
+        logits=logit_tensor, labels=label_tensor))
+    classifier = TFClassifier(input_ph=input_tensor, output=output_tensor,
+                              labels_ph=label_tensor, loss=loss, sess=sess)
+    return (x_train, y_train), (x_test, y_test), (mean_l2_train, mean_inf_train), norm, eps, classifier
+
+
 def get_preds(classifier, x, y):
     preds = np.argmax(classifier.predict(x), axis=1)
     acc = np.sum(preds == np.argmax(y, axis=1)) / len(y)
@@ -111,7 +136,7 @@ def make_adv_img(clean_img, noise, adv_img, filename):
     # adv
     im_adv = adv_img * 255.0
     im_adv = np.squeeze(np.clip(im_adv, 0, 255).astype(np.uint8))
-
+    # all
     img_all = np.concatenate((im_clean, im_noise, im_adv), axis=1)
     img_all = Image.fromarray(np.uint8(img_all))
     img_all.save(filename)
