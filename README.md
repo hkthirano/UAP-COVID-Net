@@ -43,11 +43,11 @@ Hokuto H, Koga K & Takemoto K (2020) *in prep.*
   - `COVIDNet-CXR Small`
   - `COVIDNet-CXR Large`
 
-### 2. Install the UAP methods and Keras.
+### 2. Install the methods for generating universal adversarial perturbations (UAPs) and Keras.
 - `pip install git+https://github.com/hkthirano/adversarial-robustness-toolbox`
 - `pip install keras`
 
-### 3. Generate a UAP.
+### 3. Generate UAPs.
 
 ```
 # $ pwd
