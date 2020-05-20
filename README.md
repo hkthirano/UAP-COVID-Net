@@ -57,7 +57,7 @@ Hokuto H, Koga K & Takemoto K (2020) *in prep.*
 python generate_nontargeted_uap.py
 
 # UAP for targeted attacks to COVID-19
-python generate_targeted_uap.py --target COVID-19 
+python generate_targeted_uap.py --target COVID-19
 # `--target` argument indicates the target class: normal, pneumonia, or COVID-19 (default).
 
 # random UAP
@@ -65,3 +65,5 @@ python generate_random_uap.py
 ```
 
 ### 4. Results
+
+![result](assets/result.png)

@@ -68,6 +68,8 @@ def create_model(weightspath, metaname, ckptname):
 
 
 def set_up(args):
+    if not os.path.isdir('output'):
+        os.makedirs('output')
     # # Load the chestx dataset
     (x_train, y_train), (x_test, y_test), (mean_l2_train,
                                            mean_inf_train) = load_data(args.datapath, args.trainfile, args.testfile)
@@ -79,7 +81,7 @@ def set_up(args):
         eps = mean_inf_train * args.eps
     # # Create the model
     sess, graph = create_model(args.weightspath, args.metaname, args.ckptname)
-    # # # Create the ART classifier
+    # # Create the ART classifier
     input_tensor = graph.get_tensor_by_name("input_1:0")
     logit_tensor = graph.get_tensor_by_name("dense_3/MatMul:0")
     output_tensor = graph.get_tensor_by_name("dense_3/Softmax:0")
