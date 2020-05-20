@@ -25,7 +25,7 @@ This repository contains the dataset and codes for reproducing the results in [p
 └── rsna-pneumonia-detection-challenge
 ```
 
-1. See [lindawangg/COVID-Net: Table of Contents](https://github.com/lindawangg/COVID-Net#table-of-contents) for installation.
+### 1. See [lindawangg/COVID-Net: Table of Contents](https://github.com/lindawangg/COVID-Net#table-of-contents) for installation.
 - Check the requirements
 - Generate the COVIDx dataset
   - Download the following datasets
@@ -37,11 +37,11 @@ This repository contains the dataset and codes for reproducing the results in [p
   - `COVIDNet-CXR Small`
   - `COVIDNet-CXR Large`
 
-2. Install the UAP methods and Keras.
+### 2. Install the UAP methods and Keras.
 - `pip install git+https://github.com/hkthirano/adversarial-robustness-toolbox`
 - `pip install keras`
 
-3. Generate a UAP.
+### 3. Generate a UAP.
 
 ```
 # $ pwd
@@ -58,4 +58,4 @@ python generate_targeted_uap.py --target COVID-19
 python generate_random_uap.py
 ```
 
-4. Results
+### 4. Results
