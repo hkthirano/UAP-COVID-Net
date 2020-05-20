@@ -1,5 +1,5 @@
 # UAP-COVID-Net
-This repository contains the codes for reproducing the results in [paper title](url).
+This repository contains the codes used in our study on [paper title](url).
 
 ## Terms of use
 
