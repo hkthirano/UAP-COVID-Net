@@ -1,5 +1,11 @@
 # UAP-COVID-Net
-This repository contains the dataset and codes for reproducing the results in [paper title](url).
+This repository contains the codes for reproducing the results in [paper title](url).
+
+## Terms of use
+
+MIT licensed. Happy if you cite our study when using the codes:
+
+Hokuto H, Koga K & Takemoto K (2020) *in prep.*
 
 ## Usage
 
