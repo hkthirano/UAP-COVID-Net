@@ -65,5 +65,5 @@ python generate_random_uap.py
 ```
 
 ### 4. Results
-
+The targeted UAP causes the COVID-Net models to classify most X-ray images into COVID-19.
 ![result](assets/result.png)
