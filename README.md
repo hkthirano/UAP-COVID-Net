@@ -1,11 +1,11 @@
 # UAP-COVID-Net
-This repository contains the codes used in our study on [paper title](url).
+This repository contains the codes used in our study on [*Vulnerability of deep neural networks for detecting COVID-19 cases from chest X-ray images to universal adversarial attacks*](https://arxiv.org/abs/2005.11061).
 
 ## Terms of use
 
 MIT licensed. Happy if you cite our study when using the codes:
 
-Hokuto H, Koga K & Takemoto K (2020) *in prep.*
+Hokuto H, Koga K & Takemoto K (2020) **Vulnerability of deep neural networks for detecting COVID-19 cases from chest X-ray images to universal adversarial attacks.** arXiv preprint. [arXiv:2005.11061](https://arxiv.org/abs/2005.11061).
 
 ## Usage
 
