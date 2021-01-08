@@ -3,7 +3,7 @@ This repository contains the codes used in our study on [*Vulnerability of deep 
 
 ## Terms of use
 
-MIT licensed. Happy if you cite our study when using the codes:
+MIT licensed. Happy if you cite our paper when using the codes:
 
 Hirano H, Koga K & Takemoto K (2020) **Vulnerability of deep neural networks for detecting COVID-19 cases from chest X-ray images to universal adversarial attacks.** PLoS ONE 15(12), e0243963. doi:[10.1371/journal.pone.0243963](https://doi.org/10.1371/journal.pone.0243963)
 
